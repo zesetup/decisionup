@@ -1,14 +1,13 @@
 package com.github.zesetup.decisionup.views.signup;
 
-import com.github.zesetup.decisionup.data.entity.SamplePerson;
-import com.github.zesetup.decisionup.data.service.SamplePersonService;
+import com.github.zesetup.decisionup.domain.User;
+import com.github.zesetup.decisionup.service.UserService;
 import com.github.zesetup.decisionup.views.MainLayout;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.customfield.CustomField;
-import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.Div;
@@ -32,35 +31,33 @@ public class SignupView extends Div {
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
     private EmailField email = new EmailField("Email address");
-    private DatePicker dateOfBirth = new DatePicker("Birthday");
-    private PhoneNumberField phone = new PhoneNumberField("Phone number");
     private TextField occupation = new TextField("Occupation");
 
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
 
-    private Binder<SamplePerson> binder = new Binder(SamplePerson.class);
+    private Binder<User> userBinder = new Binder(User.class);
 
-    public SignupView(SamplePersonService personService) {
+    public SignupView(UserService userService) {
         addClassName("signup-view");
 
         add(createTitle());
         add(createFormLayout());
         add(createButtonLayout());
 
-        binder.bindInstanceFields(this);
+        userBinder.bindInstanceFields(this);
         clearForm();
 
         cancel.addClickListener(e -> clearForm());
         save.addClickListener(e -> {
-            personService.update(binder.getBean());
-            Notification.show(binder.getBean().getClass().getSimpleName() + " details stored.");
+            userService.update(userBinder.getBean());
+            Notification.show(userBinder.getBean().getClass().getSimpleName() + " details stored.");
             clearForm();
         });
     }
 
     private void clearForm() {
-        binder.setBean(new SamplePerson());
+        userBinder.setBean(new User());
     }
 
     private Component createTitle() {
@@ -70,7 +67,7 @@ public class SignupView extends Div {
     private Component createFormLayout() {
         FormLayout formLayout = new FormLayout();
         email.setErrorMessage("Please enter a valid email address");
-        formLayout.add(firstName, lastName, dateOfBirth, phone, email, occupation);
+        formLayout.add(firstName, lastName,  email, occupation);
         return formLayout;
     }
 

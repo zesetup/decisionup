@@ -1,4 +1,4 @@
-package com.github.zesetup.decisionup.data;
+package com.github.zesetup.decisionup.domain;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
