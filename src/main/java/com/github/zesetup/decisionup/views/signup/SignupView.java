@@ -1,5 +1,6 @@
 package com.github.zesetup.decisionup.views.signup;
 
+import com.github.zesetup.decisionup.domain.Company;
 import com.github.zesetup.decisionup.domain.User;
 import com.github.zesetup.decisionup.service.UserService;
 import com.github.zesetup.decisionup.views.MainLayout;
@@ -16,6 +17,7 @@ import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
+import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
@@ -28,46 +30,73 @@ import com.vaadin.flow.router.RouteAlias;
 @Uses(Icon.class)
 public class SignupView extends Div {
 
-    private TextField firstName = new TextField("First name");
+    // Owner form fields
+    private TextField firstName = new TextField(" First name");
     private TextField lastName = new TextField("Last name");
     private EmailField email = new EmailField("Email address");
-    private TextField occupation = new TextField("Occupation");
+    private PasswordField passwordField = new PasswordField("Password");
+
+    // Company form fields
+    private TextField companyName = new TextField("Company name");
 
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
 
     private Binder<User> userBinder = new Binder(User.class);
+    private Binder<Company> companyBinder = new Binder(Company.class);
 
     public SignupView(UserService userService) {
         addClassName("signup-view");
 
-        add(createTitle());
-        add(createFormLayout());
+        add(createOwnerTitle());
+        add(createOwnerFormLayout());
+
+        add(createCompanyTitle());
+        add(createCompanyFormLayout());
+
         add(createButtonLayout());
 
-        userBinder.bindInstanceFields(this);
+
+        userBinder.forField(firstName).bind("name");
+        userBinder.forField(lastName).bind("surname");
+        userBinder.forField(email).bind("email");
+        userBinder.forField(passwordField).bind("password");
+
         clearForm();
 
         cancel.addClickListener(e -> clearForm());
         save.addClickListener(e -> {
-            userService.update(userBinder.getBean());
+            userBinder.validate();
+            Notification.show("Valid:" + userBinder.isValid());
+            /*userService.update(userBinder.getBean());
             Notification.show(userBinder.getBean().getClass().getSimpleName() + " details stored.");
-            clearForm();
+            clearForm();*/
         });
     }
 
     private void clearForm() {
         userBinder.setBean(new User());
+        companyBinder.setBean(new Company());
     }
 
-    private Component createTitle() {
-        return new H3("Personal information");
+    private Component createOwnerTitle() {
+        return new H3("Owner person information");
     }
 
-    private Component createFormLayout() {
+    private Component createOwnerFormLayout() {
         FormLayout formLayout = new FormLayout();
         email.setErrorMessage("Please enter a valid email address");
-        formLayout.add(firstName, lastName,  email, occupation);
+        formLayout.add(firstName, lastName,  email);
+        return formLayout;
+    }
+
+    private Component createCompanyTitle() {
+        return new H3("Company information");
+    }
+
+    private Component createCompanyFormLayout() {
+        FormLayout formLayout = new FormLayout();
+        formLayout.add(companyName);
         return formLayout;
     }
 

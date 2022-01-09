@@ -8,11 +8,19 @@
     <name>Project base for Spring Boot and Vaadin Flow</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+<!--
 
     <properties>
-<!--        <java.version>17</java.version>-->
         <java.version>11</java.version>
         <vaadin.version>14.8.0</vaadin.version>
+    </properties>
+-->
+
+    <properties>
+        <java.version>11</java.version>
+        <vaadin.version>14.6.8</vaadin.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
     <parent>

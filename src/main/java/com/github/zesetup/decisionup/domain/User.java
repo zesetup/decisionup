@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ public class User extends AbstractEntity {
     String id;
 
     @Size(min = 2, max = 16)
+    @NotBlank
     String name;
 
     @Size(min = 2, max = 16)
@@ -36,6 +38,7 @@ public class User extends AbstractEntity {
         this.email = email;
         this.role = role;
         this.password = org.apache.commons.codec.digest.DigestUtils.sha256Hex(password);
+        System.out.println("AA111");
     }
 
     public User() {

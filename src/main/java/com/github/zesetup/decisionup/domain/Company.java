@@ -22,4 +22,7 @@ public class Company extends  AbstractEntity {
         this.id = UUID.randomUUID().toString();
         this.name = name;
     }
+
+    public Company() {
+    }
 }
