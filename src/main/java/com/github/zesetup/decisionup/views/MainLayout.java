@@ -136,7 +136,6 @@ public class MainLayout extends AppLayout {
     private Footer createFooter() {
         Footer layout = new Footer();
         layout.addClassNames("flex", "items-center", "my-s", "px-m", "py-xs");
-        System.out.println("aaak");
         return layout;
     }
 
@@ -144,7 +143,6 @@ public class MainLayout extends AppLayout {
     protected void afterNavigation() {
         super.afterNavigation();
         viewTitle.setText(getCurrentPageTitle());
-        System.out.println("a");
     }
 
     private String getCurrentPageTitle() {

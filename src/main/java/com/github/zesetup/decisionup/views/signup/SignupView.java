@@ -31,7 +31,7 @@ import com.vaadin.flow.router.RouteAlias;
 public class SignupView extends Div {
 
     // Owner form fields
-    private TextField firstName = new TextField(" First name");
+    private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
     private EmailField email = new EmailField("Email address");
     private PasswordField passwordField = new PasswordField("Password");
