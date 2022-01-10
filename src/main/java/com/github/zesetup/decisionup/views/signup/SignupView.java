@@ -31,10 +31,9 @@ import com.vaadin.flow.router.RouteAlias;
 public class SignupView extends Div {
 
     // Owner form fields
-    private TextField firstName = new TextField("First name");
-    private TextField lastName = new TextField("Last name");
-    private EmailField email = new EmailField("Email address");
-    private PasswordField passwordField = new PasswordField("Password");
+    private final TextField firstName = new TextField("First name");
+    private final TextField lastName = new TextField("Last name");
+    private final EmailField email = new EmailField("Email address");
 
     // Company form fields
     private TextField companyName = new TextField("Company name");
@@ -58,8 +57,9 @@ public class SignupView extends Div {
 
 
         userBinder.forField(firstName).bind("name");
-        userBinder.forField(lastName).bind("surname");
+        userBinder.forField(lastName).bind(User::getSurname, User::setSurname);
         userBinder.forField(email).bind("email");
+        PasswordField passwordField = new PasswordField("Password");
         userBinder.forField(passwordField).bind("password");
 
         clearForm();
@@ -72,6 +72,7 @@ public class SignupView extends Div {
             Notification.show(userBinder.getBean().getClass().getSimpleName() + " details stored.");
             clearForm();*/
         });
+        userBinder.setBean(new User());
     }
 
     private void clearForm() {
