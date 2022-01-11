@@ -19,6 +19,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -34,6 +35,9 @@ public class SignupView extends Div {
     private final TextField firstName = new TextField("First name");
     private final TextField lastName = new TextField("Last name");
     private final EmailField email = new EmailField("Email address");
+    private final PasswordField passwordField = new PasswordField("Password");
+    private  User user;
+    private Company company;
 
     // Company form fields
     private TextField companyName = new TextField("Company name");
@@ -41,8 +45,8 @@ public class SignupView extends Div {
     private Button cancel = new Button("Cancel");
     private Button save = new Button("Save");
 
-    private Binder<User> userBinder = new Binder(User.class);
-    private Binder<Company> companyBinder = new Binder(Company.class);
+    private BeanValidationBinder<User> userBinder = new BeanValidationBinder<>(User.class);
+    private BeanValidationBinder<Company> companyBinder = new BeanValidationBinder<>(Company.class);
 
     public SignupView(UserService userService) {
         addClassName("signup-view");
@@ -55,14 +59,16 @@ public class SignupView extends Div {
 
         add(createButtonLayout());
 
+        userBinder.bind(firstName, "name");
+        userBinder.bind(lastName, "surname");
+        userBinder.bind(email, "email");
+        userBinder.bind()
 
-        userBinder.forField(firstName).bind("name");
-        userBinder.forField(lastName).bind(User::getSurname, User::setSurname);
-        userBinder.forField(email).bind("email");
-        PasswordField passwordField = new PasswordField("Password");
         userBinder.forField(passwordField).bind("password");
 
         clearForm();
+        user = new User();
+        userBinder.setBean(user);
 
         cancel.addClickListener(e -> clearForm());
         save.addClickListener(e -> {
@@ -72,7 +78,11 @@ public class SignupView extends Div {
             Notification.show(userBinder.getBean().getClass().getSimpleName() + " details stored.");
             clearForm();*/
         });
-        userBinder.setBean(new User());
+    }
+
+    public void setData(User user, Company company) {
+        this.user = user;
+        this.company = company;
     }
 
     private void clearForm() {

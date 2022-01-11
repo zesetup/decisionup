@@ -110,7 +110,6 @@ public class MainLayout extends AppLayout {
         List<RouterLink> links = new ArrayList<>();
         for (MenuItemInfo menuItemInfo : menuItems) {
             links.add(createLink(menuItemInfo));
-
         }
         return links;
     }
@@ -119,7 +118,6 @@ public class MainLayout extends AppLayout {
         RouterLink link = new RouterLink();
         link.addClassNames("flex", "mx-s", "p-s", "relative", "text-secondary");
         link.setRoute(menuItemInfo.getView());
-
         Span icon = new Span();
         icon.addClassNames("me-s", "text-l");
         if (!menuItemInfo.getIconClass().isEmpty()) {
