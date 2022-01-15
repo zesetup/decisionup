@@ -20,7 +20,6 @@ import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
@@ -61,10 +60,11 @@ public class SignupView extends Div {
 
         userBinder.bind(firstName, "name");
         userBinder.bind(lastName, "surname");
-        userBinder.bind(email, "email");
-        userBinder.bind()
 
+        userBinder.bind(email, "email");
         userBinder.forField(passwordField).bind("password");
+
+        companyBinder.bind(companyName, "name");
 
         clearForm();
         user = new User();
@@ -97,7 +97,7 @@ public class SignupView extends Div {
     private Component createOwnerFormLayout() {
         FormLayout formLayout = new FormLayout();
         email.setErrorMessage("Please enter a valid email address");
-        formLayout.add(firstName, lastName,  email);
+        formLayout.add(firstName, lastName,  email, passwordField);
         return formLayout;
     }
 

@@ -13,7 +13,7 @@ public class User extends AbstractEntity {
     @Id
     String id;
 
-    @Size(min = 2, max = 3)
+    @Size(min = 2, max = 16)
     @NotBlank
     String name;
 

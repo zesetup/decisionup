@@ -12,7 +12,7 @@ public class Company extends  AbstractEntity {
     @Id
     String id;
 
-    @Size(min = 2, max = 16)
+    @Size(min = 2, max = 128)
     String name;
 
     @OneToMany
